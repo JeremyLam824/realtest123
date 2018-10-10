@@ -48,16 +48,19 @@ print("第二步时间：", t5)
 zz2 = pd.DataFrame()
 zz3 = pd.DataFrame()
 for symbol in zz1.债券代码:
-    wmt = w.wss(symbol, "windl1type,amount,latestissurercreditrating")
+    wmt = w.wss(symbol, "windl1type,amount,latestissurercreditrating,issuerupdated")
     wmt.Codes[0]=symbol
     zz3['债券代码'] = wmt.Codes[0]
     zz3['wind一级分类'] = wmt.Data[0]
     zz3['债项评级'] = wmt.Data[1]
     zz3['主体评级'] = wmt.Data[2]
+    zz3['发行主体'] = wmt.Data[3]
     zz4 = pd.concat([zz2,zz3],ignore_index = True)
     zz2=zz4
 t6=time.time()
 t7=t6-t4
 print("第三步时间：", t7)
+result = pd.merge(zz1, zz2, on='债券代码')
 print(zz1)
 print(zz2)
+print(result)
